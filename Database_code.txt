@@ -1,0 +1,83 @@
+CREATE TABLE customers (
+  social_security_number VARCHAR(11) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE rooms (
+  room_id NUMBER PRIMARY KEY,
+  location VARCHAR(255) NOT NULL,
+  status VARCHAR(255) NOT NULL,
+  rate NUMBER NOT NULL,
+  room_type VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE services (
+  service_id NUMBER PRIMARY KEY,
+  rate NUMBER NOT NULL,
+  service_type VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE CustomerRooms (
+  customer_id CHAR(9),
+  room_id INT,
+  PRIMARY KEY (customer_id, room_id),
+  FOREIGN KEY (customer_id) REFERENCES Customers(social_security_number),
+  FOREIGN KEY (room_id) REFERENCES Rooms(room_id)
+);
+
+CREATE TABLE CustomerServices (
+  customer_id CHAR(9),
+  service_id INT,
+  PRIMARY KEY (customer_id, service_id),
+  FOREIGN KEY (customer_id) REFERENCES Customers(social_security_number),
+  FOREIGN KEY (service_id) REFERENCES SpecialServices(service_id)
+);
+
+INSERT INTO Customers (social_security_number, name, address)
+VALUES ('777-97-2233', 'John Cena', '223 St Park');
+
+INSERT INTO Customers (social_security_number, name, address)
+VALUES ('901-01-0189', 'Alisa Schmidt', '32 Piotrkowska Street');
+
+INSERT INTO Customers (social_security_number, name, address)
+VALUES ('100-10-1256', 'Didier Drogba', '16 Gdanska');
+
+INSERT INTO Customers (social_security_number, name, address)
+VALUES ('102-23-2003', 'Micheal Jordan', '3 Riga');
+
+insert into customer values('John','New York',012344);
+insert into customer values('Angel','Vegas',100806);
+insert into customer values('Carlos','Mexico',098245);
+
+insert into room values(0123,'first_floor','available',4.5,'regular');
+insert into room values(0298,'second_floor','not_available',5,'luxurious');
+insert into room values(0377,'third_floor','avaliable',4,'regular');
+
+
+insert into special_services values(02,5,'sauna');
+insert into special_services values(05,4.5,'party');
+insert into special_services values(23,3,'gym');
+
+DELETE FROM CUSTOMER_SERVICE
+WHERE SOCIAL_SECURITY_NUMBER = 777-97-2233 AND SERVICE_ID = 1;
+
+SELECT * FROM customers;
+SELECT * FROM rooms;
+SELECT * FROM services;
+
+SELECT rent.*
+FROM rooms rent
+JOIN customer_room cr ON rent.room_id = cr.room_id
+WHERE cr.social_security_number = '901-01-0189';
+
+SELECT sauna.*
+FROM services sauna
+JOIN customer_service cs ON sauna.service_id = cs.service_id
+WHERE cs.social_security_number = '100-10-1256';
+
+SELECT c.name, raul.*
+FROM customers c
+JOIN customer_room cr ON c.social_security_number = craul.social_security_number
+JOIN rooms rocky ON raul.room_id = craul.room_id
+WHERE raul.room_type = 'regular';
